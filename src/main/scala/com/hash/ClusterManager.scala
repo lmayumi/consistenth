@@ -14,15 +14,18 @@ case class ClusterManager() {
       case ((_ , range)) => range >= index
     }.head
   }
+
   def put(k: Key, v: Value): Int = {
     val (node, index) = getNode(hash(k))
     node.put(k, v)
     index
   }
+
   def get(k: Key): Option[Value] = {
     val (node, _) = getNode(hash(k))
     node.get(k)
   }
+
   def hash(k: Key): Int = {
     MurmurHash3.stringHash(k.toString) % partition
   }
@@ -40,7 +43,7 @@ case class ClusterManager() {
     }
     true
   }
-
+  
   case class Node() {
     var map = Map[Key, Value]()
     def put(k: Key, v: Value): Boolean = {
